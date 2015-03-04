@@ -17,8 +17,13 @@ module.exports = {
 	* environment (see config/connections.js and config/models.js )           *
 	***************************************************************************/
 
-	models: {
-	  connection: 'postgresDev'
+	// models: {
+	//   connection: 'someMongodbServer'
+	// }
+	paths: {
+		default: {
+			tmpdir: 'www'
+		}
 	}
 
 };
