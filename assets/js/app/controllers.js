@@ -1,13 +1,18 @@
-angular.module('app.controllers', [])
+angular.module('app.controllers', ['app.services'])
 .controller('homeCTRL', function($scope){
 
 })
-.controller('loginCTRL', function($scope){
+
+
+
+
+.controller('loginCTRL', function($scope, Validate){
 	var emailIsValid = false;
 	var passwordIsValid = false;
 	var loginPass = {};
 	$scope.emailError = false;
 	$scope.passwordError = false;
+	$scope.pageError = false;
 
 	$scope.emailCheck = function(email){
 		if(validator.isEmail(email)){
@@ -39,52 +44,55 @@ angular.module('app.controllers', [])
 				identifier: email,
 				password: password
 			}
+			console.log(loginPass);
+			emailIsValid = false;
+			passwordIsValid = false;
+			$scope.email = '';
+			$scope.password = '';
+			$scope.pageError = false;
 		}
-		console.log(loginPass);
+		else{
+			$scope.pageError = true;
+		}
+
 		console.log('click');
-		$scope.email = '';
-		$scope.password = '';
 	}
 })
+
+
+
+
 .controller('registerCTRL', function($scope){
 	var userIsValid = false;
 	var emailIsValid = false;
 	var passwordIsValid = false;
 	var regPass = {};
-	$scope.userError = false;
-	$scope.emailError = false;
-	$scope.passwordError = false;
+	$scope.pageError = false;
 
 	$scope.regUserCheck = function(regUser){
 		if(validator.isNull(regUser)){
 			userIsValid = false;
-			$scope.userError = true;
 		}
 		else{
 			userIsValid = true;
-			$scope.userError = false;
 		}
 	}
 
 	$scope.regEmailCheck = function(regEmail){
 		if(validator.isEmail(regEmail)){
 			emailIsValid = true;
-			$scope.emailError = false;
 		}
 		else{
 			emailIsValid = false;
-			$scope.emailError = true;
 		}
 	}
 
 	$scope.regPasswordCheck = function(regPassword){
 		if(validator.isNull(regPassword)){
 			passwordIsValid = false;
-			$scope.passwordError = true;
 		}
 		else{
 			passwordIsValid = true;
-			$scope.passwordError = false;
 		}
 	}
 
@@ -99,13 +107,23 @@ angular.module('app.controllers', [])
 				email: email,
 				password: password
 			}
+			console.log(regPass);
+			$scope.regUser = '';
+			$scope.regEmail = '';
+			$scope.regPassword = '';
+			userIsValid = false;
+			emailIsValid = false;
+			passwordIsValid = false;
+			$scope.pageError = false;
+		}
+		else{
+			$scope.pageError = true;
 		}
 
-		console.log(regPass);
+
+
+
 		console.log('click');
-		$scope.regUser = '';
-		$scope.regEmail = '';
-		$scope.regPassword = '';
 	}
 })
 
