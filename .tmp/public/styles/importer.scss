@@ -29,6 +29,33 @@
 //
 // etc.
 
-.test {
-	color: blue;
+body{
+	background-color: #222;
+	text-align: center;
 }
+
+h1, h2, h3, h4, h5, h6{
+	font-family: 'Futura';
+	color: #ffe;
+}
+
+a, p, input{
+	font-family: 'Helvetica';
+	text-decoration: none;
+}
+
+a{
+		font-weight: 100;
+		color: #559;}
+	a:nth-of-type(1){
+		padding-right: 40px;}
+	a:nth-of-type(2){
+		padding-left: 40px;}
+
+.errors{
+	color: white;
+}
+
+@import 'homepage.scss';
+@import 'login.scss';
+@import 'register.scss';

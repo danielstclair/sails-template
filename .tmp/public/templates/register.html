@@ -1,0 +1,13 @@
+<div class="register-view">
+	<h1>register</h1>
+
+	<a ui-sref="login">login</a>
+	<a ui-sref="home">home</a>
+	<form class="login-form">
+		<input class="regUser" ng-model="regUser" ng-change="regUserCheck(regUser)" type="text" placeholder="enter user name...">
+		<input class="regEmail" ng-model="regEmail" ng-change="regEmailCheck(regEmail)" type="text" placeholder="enter email...">
+		<input class="regPassword" ng-model="regPassword" ng-change="regPasswordCheck(regPassword)" type="password" placeholder="enter password...">
+		<button ng-click="regSubmit()">submit</button>
+	</form>
+	<p class="errors" ng-show="pageError">gotta enter all fields correctly...</p>
+</div>
