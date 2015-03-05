@@ -1,13 +1,17 @@
-<div class="register-view">
-	<h1>register</h1>
+<div ng-controller="registerCTRL" class="login-view">
+	<h1>Register</h1>
 
-	<a ui-sref="login">login</a>
-	<a ui-sref="home">home</a>
-	<form class="login-form">
-		<input class="regUser" ng-model="regUser" ng-change="regUserCheck(regUser)" type="text" placeholder="enter user name...">
-		<input class="regEmail" ng-model="regEmail" ng-change="regEmailCheck(regEmail)" type="text" placeholder="enter email...">
-		<input class="regPassword" ng-model="regPassword" ng-change="regPasswordCheck(regPassword)" type="password" placeholder="enter password...">
-		<button ng-click="regSubmit()">submit</button>
-	</form>
-	<p class="errors" ng-show="pageError">gotta enter all fields correctly...</p>
+    <form class="form" ng-submit="register(htmlCredentials)" novalidate>
+        <p class="error" ng-repeat="errorMessage in error.generic" ng-bind="errorMessage">
+        </p>
+            <!-- ng-model refers to credentials object(empty) in controller -->
+            <input type="text" ng-model="htmlCredentials.identifier" placeholder="Email">
+
+            <!-- ng-model refers to credentials object(empty) in controller -->
+            <input type="password" ng-model="htmlCredentials.password" placeholder="Password">
+
+            <button type="submit">Submit</button>
+            <p class="errors" ng-bind="error.identifier"></p>
+            <p class="errors" ng-bind="error.password"></p>
+    </form>  
 </div>

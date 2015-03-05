@@ -1,8 +1,10 @@
 angular.module('app', ['app.controllers', 'ui.router'])
-.config(function($stateProvider) {
+.config(function($stateProvider, $urlRouterProvider) {
+
 	$stateProvider
+
 	.state('home', {
-		url: '/home',
+		url: '/',
 		templateUrl: 'templates/home.html',
 		controller: 'homeCTRL'
 	})
@@ -16,4 +18,11 @@ angular.module('app', ['app.controllers', 'ui.router'])
 		templateUrl: 'templates/register.html',
 		controller: 'registerCTRL'
 	})
+	.state('assignment', {
+		url: '/assignment',
+		templateUrl: 'templates/assignment.html',
+		controller: 'assignmentCTRL'
+	})
+
+	$urlRouterProvider.otherwise('/');
 })

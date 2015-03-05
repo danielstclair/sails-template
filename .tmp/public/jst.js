@@ -14,7 +14,7 @@ this["JST"]["assets/templates/login.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class="login-view">\n\t<h1>login</h1>\n\n\t<a ui-sref="home">home</a>\n\t<a ui-sref="register">register</a>\n\t<form class="login-form">\n\t\t<input class="email" ng-model="email" ng-change="emailCheck(email)" type="text" placeholder="enter email...">\n\t\t<p class="errors" ng-show="emailError">must be an email address =)</p>\n\t\t<input class="password" ng-model="password" ng-change="passwordCheck(password)" type="password" placeholder="enter password...">\n\t\t<p class="errors" ng-show="passwordError">password does not match =(</p>\n\t\t<button ng-click="loginSubmit()">submit</button>\n\t</form>\n\t<p class="errors" ng-show="pageError">gotta enter all fields correctly...</p>\n</div>';
+__p += '<div ng-controller="loginCTRL" class="login-view">\n\t\t<h1>login</h1>\n\n\t\t<a ui-sref="home">home</a>\n\t\t<a ui-sref="register">register</a>\n\t\t<form class="form" ng-submit="login(htmlCredentials)" novalidate>\n\t\t\t<p class="error" ng-repeat="errorMessage in error.generic" ng-bind="errorMessage">\n\t\t\t</p>\n            <!-- ng-model refers to credentials object(empty) in controller -->\n\t\t\t<input class="identifier" type="text" ng-model="htmlCredentials.identifier" placeholder="Email">\n\t\t\t\n\n\t\t\t<!-- ng-model refers to credentials object(empty) in controller -->\n\t\t\t<input class="password" type="password" ng-model="htmlCredentials.password" placeholder="Password">\n\n\t\t\t<button type="submit">Submit</button>\n\t\t\t<p class="errors" ng-bind="error.identifier"></p>\n\t\t\t<p class="errors" ng-bind="error.password"></p>\n\t\t</form>  \n</div>';
 
 }
 return __p
@@ -24,7 +24,7 @@ this["JST"]["assets/templates/register.html"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class="register-view">\n\t<h1>register</h1>\n\n\t<a ui-sref="login">login</a>\n\t<a ui-sref="home">home</a>\n\t<form class="login-form">\n\t\t<input class="regUser" ng-model="regUser" ng-change="regUserCheck(regUser)" type="text" placeholder="enter user name...">\n\t\t<input class="regEmail" ng-model="regEmail" ng-change="regEmailCheck(regEmail)" type="text" placeholder="enter email...">\n\t\t<input class="regPassword" ng-model="regPassword" ng-change="regPasswordCheck(regPassword)" type="password" placeholder="enter password...">\n\t\t<button ng-click="regSubmit()">submit</button>\n\t</form>\n\t<p class="errors" ng-show="pageError">gotta enter all fields correctly...</p>\n</div>';
+__p += '<div ng-controller="registerCTRL" class="login-view">\n\t<h1>Register</h1>\n\n    <form class="form" ng-submit="register(htmlCredentials)" novalidate>\n        <p class="error" ng-repeat="errorMessage in error.generic" ng-bind="errorMessage">\n        </p>\n            <!-- ng-model refers to credentials object(empty) in controller -->\n            <input type="text" ng-model="htmlCredentials.identifier" placeholder="Email">\n\n            <!-- ng-model refers to credentials object(empty) in controller -->\n            <input type="password" ng-model="htmlCredentials.password" placeholder="Password">\n\n            <button type="submit">Submit</button>\n            <p class="errors" ng-bind="error.identifier"></p>\n            <p class="errors" ng-bind="error.password"></p>\n    </form>  \n</div>';
 
 }
 return __p

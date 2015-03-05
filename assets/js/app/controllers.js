@@ -1,130 +1,141 @@
 angular.module('app.controllers', ['app.services'])
-.controller('homeCTRL', function($scope){
+.controller('homeCTRL', function($scope) {
 
 })
+.controller('assignmentCTRL', function($scope, $http, $state, Assalidate) {
+	$scope.error = {
+		title: '',
+		due: '',
+		link: '',
+		generic: []
+	};
+	$scope.htmlCredentials = {
+		title: '',
+		due: '',
+		link: ''
+	}
 
+	$scope.assign = function(htmlCredentials) {
+		$scope.error = Assalidate.htmlCredentials(htmlCredentials);
+		console.log($scope.error);
 
-
-
-.controller('loginCTRL', function($scope, Validate){
-	var emailIsValid = false;
-	var passwordIsValid = false;
-	var loginPass = {};
-	$scope.emailError = false;
-	$scope.passwordError = false;
-	$scope.pageError = false;
-
-	$scope.emailCheck = function(email){
-		if(validator.isEmail(email)){
-			emailIsValid = true;
-			$scope.emailError = false;
-		}
-		else{
-			emailIsValid = false;
-			$scope.emailError = true;
+		if(!Assalidate.hasError($scope.error)) {
+			console.log($scope.error);
+			var object = {
+					name: htmlCredentials.title,
+				 	dueOn: htmlCredentials.due,
+				 	url: htmlCredentials.link
+				 };
+			 console.log(object);
 		}
 	}
 
-	$scope.passwordCheck = function(password){
-		if (validator.isNull(password)) {
-			$scope.passwordError = true;
-			passwordIsValid = false;
-		}
-		else{
-			$scope.passwordError = false;
-			passwordIsValid = true;
-		}
-	}
-
-	$scope.loginSubmit = function(email, password){
-		email = $scope.email;
-		password = $scope.password;
-		if(emailIsValid && passwordIsValid){
-			loginPass = {
-				identifier: email,
-				password: password
-			}
-			console.log(loginPass);
-			emailIsValid = false;
-			passwordIsValid = false;
-			$scope.email = '';
-			$scope.password = '';
-			$scope.pageError = false;
-		}
-		else{
-			$scope.pageError = true;
-		}
-
-		console.log('click');
-	}
 })
+.controller('loginCTRL', function($scope, $http, $state, Validate) {
+	$scope.error = {
+		identifier: '',
+		password: '',
+		generic: []
+	};
+	$scope.htmlCredentials = {
+		identifier: '',
+		password: ''
+	};
 
+	/* console.log($scope.credentials); */
 
+	$scope.login = function(htmlCredentials) {
+		$scope.error = Validate.htmlCredentials(htmlCredentials);
+		console.log($scope.error);
 
+		if(!Validate.hasError($scope.error)) {
 
-.controller('registerCTRL', function($scope){
-	var userIsValid = false;
-	var emailIsValid = false;
-	var passwordIsValid = false;
-	var regPass = {};
-	$scope.pageError = false;
+			var object = {
+					username: htmlCredentials.identifier,
+				 	email: htmlCredentials.identifier,
+				 	password: htmlCredentials.password
+				 };
 
-	$scope.regUserCheck = function(regUser){
-		if(validator.isNull(regUser)){
-			userIsValid = false;
+			$http.post('/auth/local', htmlCredentials)
+			.success(function(res) {
+				console.log('success!');
+				console.log(res);
+
+				/* res is the object coming back from server, success is the property
+				automatically is attached to the object coming back */
+				if(res.success) {
+					$state.go('home');
+				}
+				/* res.errors, errors is a property in the config>locals>en.json file you can change what it says */
+				else {
+					$scope.error.generic = res.errors;
+				}
+				console.log($scope.error);
+			})
+			.error(function(err) {
+				console.log('Error!');
+				console.log(err);
+			});
 		}
-		else{
-			userIsValid = true;
-		}
-	}
+	};
+	
+	
+})
+.controller('registerCTRL', function($scope, Validate, $http, $state) {
 
-	$scope.regEmailCheck = function(regEmail){
-		if(validator.isEmail(regEmail)){
-			emailIsValid = true;
-		}
-		else{
-			emailIsValid = false;
-		}
-	}
+	/* Model error object (empty) that is filled by the outcome of the service */
+	$scope.error = {
+		identifier: '',
+		password: '',
+		generic: []
+	};
 
-	$scope.regPasswordCheck = function(regPassword){
-		if(validator.isNull(regPassword)){
-			passwordIsValid = false;
-		}
-		else{
-			passwordIsValid = true;
-		}
-	}
+	/* Setting format for credentials object filled by outcome of service */
+	$scope.htmlCredentials = {
+		identifier: '',
+		password: ''
+	};
 
-	$scope.regSubmit = function(user, email, password){
-		user = $scope.regUser;
-		email = $scope.regEmail;
-		password = $scope.regPassword;
+	/* Pass object from HTML submit into function through the credentials method 
+	of service to evaluate submission $scope.submit = function(htmlCredentials) { */
+					/* calling object.method from services */
+		$scope.register = function(htmlCredentials) {
+		$scope.error = Validate.htmlCredentials(htmlCredentials);
+			// console.log($scope.error);
 
-		if(userIsValid && emailIsValid && passwordIsValid){
-			regPass = {
-				username: user,
-				email: email,
-				password: password
+			/* If it is true that val.hasError is false (no errors), if(true) and run */
+			if(!Validate.hasError($scope.error)) {
+				$scope.htmlCredentials = {
+				identifier: $scope.identifier,
+				password: $scope.password
+			};
+			 console.log(object);
+
+
+			 $http.post('/auth/local/register', object)
+			 .success(function(res) {
+			 	// console.log('success');
+			 	// console.log('res');
+
+			 	if(res.success) {
+			 		$state.go('home');
+			 	}
+			 	else {
+			 		$scope.error.generic = res.errors;
+			 	}
+			 	// console.log($scope.error);
+			 })
+
+			 .error(function(err) {
+			 	console.log('Error!');
+			 	console.log(err);
+			 });
+			}	
+			else {
+				console.log($scope.error);
 			}
-			console.log(regPass);
-			$scope.regUser = '';
-			$scope.regEmail = '';
-			$scope.regPassword = '';
-			userIsValid = false;
-			emailIsValid = false;
-			passwordIsValid = false;
-			$scope.pageError = false;
-		}
-		else{
-			$scope.pageError = true;
-		}
-
-
-
-
-		console.log('click');
-	}
+	};
+	
 })
 
 
