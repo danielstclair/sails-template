@@ -1,5 +1,13 @@
 <!-- <h1>hello world</h1> -->
 <div ng-app="app">
+	<nav ng-controller="navCTRL">
+	<a ui-sref-active="active" ui-sref="home">home</a>
+	<a ui-sref-active="active" ui-sref="login">login</a>
+	<a ui-sref-active="active" ui-sref="register">register</a>
+	<a ui-sref-active="active" ui-sref="assignment">submit an assignment</a>
+	<a ui-sref-active="active" ui-sref="dashboard">dashboard</a>
+	<a href="#" ng-click="logout()">logout</a>
+</nav>
 	<div ui-view>
 	</div>
 </div>

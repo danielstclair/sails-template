@@ -19,9 +19,14 @@ angular.module('app', ['app.controllers', 'ui.router'])
 		controller: 'registerCTRL'
 	})
 	.state('assignment', {
-		url: '/assignment',
-		templateUrl: 'templates/assignment.html',
+		url: '/assignments',
+		templateUrl: 'templates/assignments.html',
 		controller: 'assignmentCTRL'
+	})
+	.state('dashboard', {
+		url: '/dashboard',
+		templateUrl: 'templates/dashboard.html',
+		controller: 'dashboardCTRL'
 	})
 
 	$urlRouterProvider.otherwise('/');

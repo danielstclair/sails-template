@@ -1,0 +1,22 @@
+<div ng-controller="assignmentCTRL" class="login-view">
+		<h1>submit an assignment</h1>
+		<form class="form" ng-submit="assign(assignment)" novalidate>
+			<p class="error" ng-repeat="errorMessage in error.generic" ng-bind="errorMessage">
+			</p>
+			<input class="identifier" type="text" ng-model="assignment.title" placeholder="Assignment Name">
+
+			<input class="text" type="text" ng-model="assignment.url" placeholder="Assignment URL"><br>
+
+			<p class="errors">Due Date</p>
+
+			<input class="due-date" type="date" ng-model="assignment.dueDate" placeholder="Assignment URL">
+
+			<input type="time" ng-model="assignment.dueTime" step="60">
+
+			<button type="submit">Submit</button>
+			<p class="errors" ng-bind="error.title"></p>
+			<p class="errors" ng-bind="error.link"></p>
+			<p class="errors" ng-bind="error.dueDate"></p>
+			<p class="errors" ng-bind="error.dueTime"></p>
+		</form>  
+</div>

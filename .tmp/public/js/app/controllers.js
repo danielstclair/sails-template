@@ -2,34 +2,55 @@ angular.module('app.controllers', ['app.services'])
 .controller('homeCTRL', function($scope) {
 
 })
-.controller('assignmentCTRL', function($scope, $http, $state, Assalidate) {
+.controller('navCTRL', function($scope, $state, $http){
+	$scope.logout = function(){
+		$http.get('/logout');
+		$state.go('home');
+	}
+})
+.controller('assignmentCTRL', function($scope, $http, $state, AssignVal) {
 	$scope.error = {
 		title: '',
-		due: '',
-		link: '',
+		url: '',
+		dueDate: '',
+		dueTime: '',
 		generic: []
 	};
-	$scope.htmlCredentials = {
+	$scope.assignment = {
 		title: '',
-		due: '',
-		link: ''
+		url: '',
+		dueDate: moment().add(1, 'day').toDate(),
+		dueTime: new Date(1970, 0, 1, 22, 0, 0)
 	}
 
-	$scope.assign = function(htmlCredentials) {
-		$scope.error = Assalidate.htmlCredentials(htmlCredentials);
+	$scope.assign = function(assignment) {
+		$scope.error = AssignVal.assignment(assignment);
 		console.log($scope.error);
 
-		if(!Assalidate.hasError($scope.error)) {
+		if(!AssignVal.hasError($scope.error)) {
+			var dueAt = moment(assignment.dueDate);
+			dueAt.hour(assignment.dueTime.getHours());
+			dueAt.minute(assignment.dueTime.getMinutes());
+			dueAt.second(assignment.dueTime.getSeconds());
 			console.log($scope.error);
 			var object = {
-					name: htmlCredentials.title,
-				 	dueOn: htmlCredentials.due,
-				 	url: htmlCredentials.link
+					name: assignment.title,
+				 	url: assignment.url,
+				 	dueAt: dueAt.format('YYYY-MM-DD HH:mm:ss')
 				 };
 			 console.log(object);
+
+			$http.post('/assignment', object)
+			.success(function(newAssignment){
+				console.log(newAssignment);
+			})
+			.error(function(err){
+				console.log(err);
+			});
+			console.log(assignment);
+
 		}
 	}
-
 })
 .controller('loginCTRL', function($scope, $http, $state, Validate) {
 	$scope.error = {
@@ -61,12 +82,10 @@ angular.module('app.controllers', ['app.services'])
 				console.log('success!');
 				console.log(res);
 
-				/* res is the object coming back from server, success is the property
-				automatically is attached to the object coming back */
 				if(res.success) {
 					$state.go('home');
 				}
-				/* res.errors, errors is a property in the config>locals>en.json file you can change what it says */
+
 				else {
 					$scope.error.generic = res.errors;
 				}
@@ -83,27 +102,25 @@ angular.module('app.controllers', ['app.services'])
 })
 .controller('registerCTRL', function($scope, Validate, $http, $state) {
 
-	/* Model error object (empty) that is filled by the outcome of the service */
+
 	$scope.error = {
 		identifier: '',
 		password: '',
 		generic: []
 	};
 
-	/* Setting format for credentials object filled by outcome of service */
+
 	$scope.htmlCredentials = {
 		identifier: '',
 		password: ''
 	};
 
-	/* Pass object from HTML submit into function through the credentials method 
-	of service to evaluate submission $scope.submit = function(htmlCredentials) { */
-					/* calling object.method from services */
+
 		$scope.register = function(htmlCredentials) {
 		$scope.error = Validate.htmlCredentials(htmlCredentials);
-			// console.log($scope.error);
+			console.log($scope.error);
 
-			/* If it is true that val.hasError is false (no errors), if(true) and run */
+
 			if(!Validate.hasError($scope.error)) {
 				var object = {
 					username: htmlCredentials.identifier,
@@ -115,8 +132,8 @@ angular.module('app.controllers', ['app.services'])
 
 			 $http.post('/auth/local/register', object)
 			 .success(function(res) {
-			 	// console.log('success');
-			 	// console.log('res');
+			 	console.log('success');
+			 	console.log('res');
 
 			 	if(res.success) {
 			 		$state.go('home');
@@ -124,7 +141,6 @@ angular.module('app.controllers', ['app.services'])
 			 	else {
 			 		$scope.error.generic = res.errors;
 			 	}
-			 	// console.log($scope.error);
 			 })
 
 			 .error(function(err) {
@@ -137,6 +153,19 @@ angular.module('app.controllers', ['app.services'])
 			}
 	};
 	
+})
+
+.controller('dashboardCTRL', function($scope, $http){
+	$scope.assignments = [];
+
+	$http.get('/assignment?sort=id DESC')
+	.success(function(assignments){
+		$scope.assignments = assignments;
+	})
+	.error(function(err){
+		console.log('err');
+		console.log(err);
+	});
 })
 
 

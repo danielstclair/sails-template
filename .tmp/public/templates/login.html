@@ -1,8 +1,5 @@
 <div ng-controller="loginCTRL" class="login-view">
 		<h1>login</h1>
-
-		<a ui-sref="home">home</a>
-		<a ui-sref="register">register</a>
 		<form class="form" ng-submit="login(htmlCredentials)" novalidate>
 			<p class="error" ng-repeat="errorMessage in error.generic" ng-bind="errorMessage">
 			</p>

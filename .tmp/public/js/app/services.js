@@ -37,22 +37,22 @@ angular.module('app.services', [])
 	};
 })
 
-.factory('Assalidate', function() {
+.factory('AssignVal', function() {
 	return {
-			htmlCredentials: function(htmlCredentials) {
+			assignment: function(assignment) {
 				var error = {
 					title: '',
 					due: '',
 					link: ''
 				}
 
-				if(!htmlCredentials.title) {
+				if(!assignment.title) {
 					error.title = 'Enter an assignment name';
 				}
-				if(!validator.isDate(htmlCredentials.due)) {
+				if(!validator.isDate(assignment.dueDate.toString())) {
 					error.due = 'The date must be a date'
 				}
-				if(!validator.isURL(htmlCredentials.link)) {
+				if(!validator.isURL(assignment.url)) {
 					error.link = 'Link must be a URL'
 				}
 				return error;

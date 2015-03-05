@@ -1,0 +1,8 @@
+<div ng-controller="dashboardCTRL" class="login-view">
+		<h1>dashboard</h1>
+		<div ng-repeat="assignment in assignments">
+			<div>{{ assignment.name }}</div>
+			<a ng-href="{{assignment.url}}">Assignment Link</a>
+			<div>{{ assignment.dueAt }}</div>
+		</div> 
+</div>
