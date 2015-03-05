@@ -1,0 +1,17 @@
+<div ng-controller="registerCTRL" class="login-view">
+	<h1>Register</h1>
+
+    <form class="form" ng-submit="register(htmlCredentials)" novalidate>
+        <p class="error" ng-repeat="errorMessage in error.generic" ng-bind="errorMessage">
+        </p>
+            <!-- ng-model refers to credentials object(empty) in controller -->
+            <input type="text" ng-model="htmlCredentials.identifier" placeholder="Email">
+
+            <!-- ng-model refers to credentials object(empty) in controller -->
+            <input type="password" ng-model="htmlCredentials.password" placeholder="Password">
+
+            <button type="submit">Submit</button>
+            <p class="errors" ng-bind="error.identifier"></p>
+            <p class="errors" ng-bind="error.password"></p>
+    </form>  
+</div>

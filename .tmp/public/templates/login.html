@@ -1,0 +1,20 @@
+<div ng-controller="loginCTRL" class="login-view">
+		<h1>login</h1>
+
+		<a ui-sref="home">home</a>
+		<a ui-sref="register">register</a>
+		<form class="form" ng-submit="login(htmlCredentials)" novalidate>
+			<p class="error" ng-repeat="errorMessage in error.generic" ng-bind="errorMessage">
+			</p>
+            <!-- ng-model refers to credentials object(empty) in controller -->
+			<input class="identifier" type="text" ng-model="htmlCredentials.identifier" placeholder="Email">
+			
+
+			<!-- ng-model refers to credentials object(empty) in controller -->
+			<input class="password" type="password" ng-model="htmlCredentials.password" placeholder="Password">
+
+			<button type="submit">Submit</button>
+			<p class="errors" ng-bind="error.identifier"></p>
+			<p class="errors" ng-bind="error.password"></p>
+		</form>  
+</div>
