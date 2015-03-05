@@ -105,10 +105,11 @@ angular.module('app.controllers', ['app.services'])
 
 			/* If it is true that val.hasError is false (no errors), if(true) and run */
 			if(!Validate.hasError($scope.error)) {
-				$scope.htmlCredentials = {
-				identifier: $scope.identifier,
-				password: $scope.password
-			};
+				var object = {
+					username: htmlCredentials.identifier,
+					email: htmlCredentials.identifier,
+					password: htmlCredentials.password
+				};
 			 console.log(object);
 
 
